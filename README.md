@@ -8,5 +8,7 @@
 - **Purchase link:** https://www.aliexpress.com/item/1005009508892646.html
 
 ## Summary of Vulnerabilities
-
+- **Unauthenticated ONVIF Interface:**
+- **RTSP Unauthenticated Access:**
+- **TLS Certificate Verification Bypass**
 ## Attack Reproduction
