@@ -23,19 +23,35 @@ This improper certificate validation enables full man-in-the-middle attacks, all
 ## Attack Reproduction
 ### 1.Port Scanning and Service Discovery
 Discovering Open Ports (10080-ONVIF, 10554-RTSP) and Services Using `Nmap`; I have taken screenshots of the other scanned open ports below
-图
+<img width="839" height="409" alt="6422a63154781a8c88b00d46d86569e" src="https://github.com/user-attachments/assets/7f5ed256-6141-41ba-a29e-de6c1c499686" />
+
 ### 2.Unauthenticated ONVIF Interface and RTSP Stream Accessible Without Credentials
 Using any ONVIF client tools (I am using Agent DVR), the device was scanned for ONVIF capabilities.
 The ONVIF service accepted any username and password. Even completely random credentials worked. The client was able to retrieve device configurations and capabilities without authentication.
-图
 **This confirms the ONVIF interface does not enforce access control.**
 Also, the ONVIF response disclosed the device’s RTSP streaming URL.
 Unlike standard formats such as:
 `rtsp://admin:admin@<ip>/live/ch0`
 The camera returned a URL without credentials:
 `rtsp://<ip>/xxx/xxx`
-图
+<img width="1595" height="1643" alt="1469269dd588f09e43b53800a7ff83b" src="https://github.com/user-attachments/assets/6230ded9-b3d5-43aa-87e4-d995dd301411" />
+
 **Connecting to this RTSP endpoint provided full live video access without authentication.**
 ### 3.TLS MITM: Certificate Validation Bypass
+1.Network Positioning via ARP Manipulation
+The testing setup first involves positioning the analysis machine between a target device and its network gateway by manipulating ARP tables.
+This forces both endpoints to route their traffic through the testing system, enabling observation of bidirectional flows.
+2.Enabling Packet Forwarding
+After establishing the MITM position, the system is configured to forward packets transparently.
+This ensures that intercepted traffic continues to reach its legitimate destination without disruption.
+Forwarding and NAT are configured on the testing host to allow seamless routing.
+3.Traffic Redirection for Inspection
+Specific network ports used by the target application (e.g., standard web service ports) are transparently redirected to a local inspection service.
+This allows inbound traffic to be analyzed without requiring changes to the target device’s configuration.
+4.Transparent Proxy Setup
+A transparent proxy service is started on the analysis machine.
+When properly configured, the proxy can observe and inspect network flows passing through the system.
+This step is used strictly for protocol analysis and debugging in an authorized test environment.
+<img width="1397" height="1131" alt="f886dda64cdd3ead81de53ee8ae6949" src="https://github.com/user-attachments/assets/7b4d2e35-aea8-46cb-86f0-1e3a136b266c" />
 
 
