@@ -50,11 +50,12 @@ The testing machine positions itself between the target device and the network g
 By manipulating ARP cache entries on both sides, the attacker-controlled host becomes the intermediary for all network traffic exchanged between the two endpoints.
 
 **2.Packet Forwarding Configuration**
-Once the MITM position is established, the machine is configured to transparently forward packets.
-This prevents service disruption and maintains normal communication between the target device and the gateway.
+`sudo sysctl -w net.ipv4.ip_forward=1`
+`sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE`
 
 **3.Traffic Redirection for Local Inspection**
-Selected traffic is internally redirected to a local service for analysis.
+`sudo iptables -t nat -A PREROUTING -i eth1 -p tcp --dport 80 -j REDIRECT --to-port 8080`
+`sudo iptables -t nat -A PREROUTING -i eth1 -p tcp --dport 443 -j REDIRECT --to-port 8080`
 
 **4.Transparent Proxy Setup**
 A transparent interception proxy is deployed using mitmproxy.
