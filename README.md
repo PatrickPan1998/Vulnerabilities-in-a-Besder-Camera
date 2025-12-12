@@ -49,14 +49,14 @@ The camera returned a URL without credentials:
 The testing machine positions itself between the target device and the network gateway by performing ARP spoofing.
 By manipulating ARP cache entries on both sides, the attacker-controlled host becomes the intermediary for all network traffic exchanged between the two endpoints.
 
-2.Packet Forwarding Configuration
+**2.Packet Forwarding Configuration**
 Once the MITM position is established, the machine is configured to transparently forward packets.
 This prevents service disruption and maintains normal communication between the target device and the gateway.
 
-3.Traffic Redirection for Local Inspection
+**3.Traffic Redirection for Local Inspection**
 Selected traffic is internally redirected to a local service for analysis.
 
-4.Transparent Proxy Setup
+**4.Transparent Proxy Setup**
 A transparent interception proxy is deployed using mitmproxy.
 When HTTPS traffic is routed through the proxy, mitmproxy automatically creates a local, temporary Certificate Authority (CA) within the testing environment. For each intercepted HTTPS domain, it dynamically generates a domain-specific certificate signed by this fake CA, allowing the proxy to decrypt and inspect encrypted traffic only if the client trusts the generated CA.
 
