@@ -31,12 +31,17 @@ The ONVIF service accepted any username and password. Even completely random cre
 **This confirms the ONVIF interface does not enforce access control.**
 Also, the ONVIF response disclosed the device’s RTSP streaming URL.
 Unlike standard formats such as:
+
 `rtsp://admin:admin@<ip>/live/ch0`
+
 The camera returned a URL without credentials:
+
 `rtsp://<ip>/xxx/xxx`
 <img width="1595" height="1643" alt="1469269dd588f09e43b53800a7ff83b" src="https://github.com/user-attachments/assets/6230ded9-b3d5-43aa-87e4-d995dd301411" />
 
 **Connecting to this RTSP endpoint provided full live video access without authentication.**
+<img width="2877" height="1645" alt="298347851a3e95cf10a05785aeed142" src="https://github.com/user-attachments/assets/061d6da8-c860-40a7-bb92-7d7ce1ad0067" />
+
 ### 3.TLS MITM: Certificate Validation Bypass
 1.Network Positioning via ARP Manipulation
 The testing setup first involves positioning the analysis machine between a target device and its network gateway by manipulating ARP tables.
