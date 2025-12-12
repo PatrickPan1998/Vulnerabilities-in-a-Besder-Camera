@@ -45,23 +45,22 @@ The camera returned a URL without credentials:
 <img width="2877" height="1645" alt="298347851a3e95cf10a05785aeed142" src="https://github.com/user-attachments/assets/061d6da8-c860-40a7-bb92-7d7ce1ad0067" />
 
 ### 3.TLS MITM: Certificate Validation Bypass
-1.Network Positioning via ARP Manipulation
-The testing setup first involves positioning the analysis machine between a target device and its network gateway by manipulating ARP tables.
-This forces both endpoints to route their traffic through the testing system, enabling observation of bidirectional flows.
+**1.ARP Spoofing**
+The testing machine positions itself between the target device and the network gateway by performing ARP spoofing.
+By manipulating ARP cache entries on both sides, the attacker-controlled host becomes the intermediary for all network traffic exchanged between the two endpoints.
 
-2.Enabling Packet Forwarding
-After establishing the MITM position, the system is configured to forward packets transparently.
-This ensures that intercepted traffic continues to reach its legitimate destination without disruption.
-Forwarding and NAT are configured on the testing host to allow seamless routing.
+2.Packet Forwarding Configuration
+Once the MITM position is established, the machine is configured to transparently forward packets.
+This prevents service disruption and maintains normal communication between the target device and the gateway.
 
-3.Traffic Redirection for Inspection
-Specific network ports used by the target application (e.g., standard web service ports) are transparently redirected to a local inspection service.
-This allows inbound traffic to be analyzed without requiring changes to the target device’s configuration.
+3.Traffic Redirection for Local Inspection
+Selected traffic is internally redirected to a local service for analysis.
 
 4.Transparent Proxy Setup
-A transparent proxy service is started on the analysis machine.
-When properly configured, the proxy can observe and inspect network flows passing through the system.
-This step is used strictly for protocol analysis and debugging in an authorized test environment.
+A transparent interception proxy is deployed using mitmproxy.
+When HTTPS traffic is routed through the proxy, mitmproxy automatically creates a local, temporary Certificate Authority (CA) within the testing environment. For each intercepted HTTPS domain, it dynamically generates a domain-specific certificate signed by this fake CA, allowing the proxy to decrypt and inspect encrypted traffic only if the client trusts the generated CA.
+
+**The result shows that mitmproxy has been successfully decrypted, which means the device has accepted this fake CA.**
 <img width="1397" height="1131" alt="f886dda64cdd3ead81de53ee8ae6949" src="https://github.com/user-attachments/assets/7b4d2e35-aea8-46cb-86f0-1e3a136b266c" />
 
 
